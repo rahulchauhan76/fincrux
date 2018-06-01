@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>Collapsible sidebar using Bootstrap 3</title>
+
+         <!-- Bootstrap CSS CDN 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- Optional theme -->
+<script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+ 
+
+ 
+ <script src="Personal.js"></script>
+        <!-- Our Custom CSS -->
+        <link rel="stylesheet" href="arthos.css">
+		<style>
+		body{
+		font-size:13px;
+		}
+		.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    /* background-color: #eeeeee; */
+    border: 0;
+    font-size: 13px;
+    /* border-bottom: 1px dotted #ddd; */
+}
+		.newtopbar {
+    background-color: rgb(255, 255, 255);
+    
+   
+   
+    text-align: center;
+    border-bottom: 1px solid rgb(243, 243, 243);
+    box-shadow: rgb(17, 17, 17) 0px 13px 10px -15px;
+    margin: 0px auto !important;
+	}
+	.leftmenuicons
+	{
+	font-size: 15px;
+    margin-right: 4px;
+    color: #E1BEE7;
+    font-weight: bold;
+
+	}
+	.card
+	{
+	border:1px solid #F5F5F5 !important;
+	padding:1.25rem;
+	}
+	.card-value
+	{
+	font-size:35px;
+	font-family: 'Lato', sans-serif;
+	font-weight:900;
+	}
+	.leftspace
+	{
+	margin-left:10px;
+	margin-bottom:10px;
+	}
+	.card-link
+	{
+	 color:#2196F3;
+	}
+	.score{
+	color:#2196F3;
+	}
+	.progress-bar {
+  width: 0;
+  animation: progress 1.5s ease-in-out forwards;
+  
+  .title {
+    opacity: 0;
+    animation: show 0.35s forwards ease-in-out 0.5s;
+  }
+} 
+.card-subtitle
+{
+font-size:13px;
+}
+.slider {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  overflow: hidden;
+  background-color: #000; color: #FFF;
+  transition: all 1s;
+}
+
+.slider.close {
+  top: 100vh;
+  height: 0;
+}
+		.submenu
+{
+ margin-left:10px;
+}		
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f1f1f1;
+}
+
+#regForm {
+  background-color: #ffffff;
+  margin: 0px auto;
+  font-family: Raleway;
+  
+  min-width: 300px;
+}
+
+h1 {
+  text-align: center;  
+}
+
+input {
+  padding: 10px;
+  width: 100%;
+  font-size: 17px;
+  font-family: Raleway;
+  border: 1px solid #aaaaaa;
+}
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+  background-color: #ffdddd;
+}
+
+/* Hide all steps by default: */
+.tab {
+  display: none;
+}
+
+button {
+  background-color: #4CAF50;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 17px;
+  font-family: Raleway;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+#prevBtn {
+  background-color: #bbbbbb;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbbbbb;
+  border: none;  
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+
+.step.active {
+  opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+  background-color: #4CAF50;
+}
+</style>
+            
+    </head>
+    <body>
+
+
+
+        <div class="wrapper">
+            <!-- Sidebar Holder -->
+            <nav id="sidebar">
+                <div class="sidebar-header" style="text-align:center;">
+                    <h3 style="font-size:28px;">ARTHOS</h3>
+                    <strong>AY</strong>
+                </div>
+
+                <ul class="list-unstyled components">
+				 <li class="active">
+                        <a href="#">
+                            <i class="fas fa-tachometer-alt"></i>
+                            My Dashboard
+                        </a>
+                    </li>
+                    <li class="activenew menu">
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
+                            <i class="far fa-user"></i>
+                            My Details
+                        </a>
+                        <ul class="collapse list-unstyled " id="homeSubmenu">
+							<li><a href="#familySubmenu" data-toggle="collapse" aria-expanded="false">Family</a>
+							  <ul class="collapse list-unstyled submenu" id="familySubmenu">
+								<li><a href="#">- My Profile </a></li>
+								<li><a href="#">- Family Profile</a></li>
+								
+							 </ul>
+							</li>
+							
+							<li><a href="#spendingSubmenu" data-toggle="collapse" aria-expanded="false">Spendings</a>
+							  <ul class="collapse list-unstyled submenu" id="spendingSubmenu">
+								<li><a href="#">- Income </a></li>
+								<li><a href="#">- Expense</a></li>
+								
+							 </ul>
+							</li>
+							
+							<li><a href="#assetSubmenu" data-toggle="collapse" aria-expanded="false">Asset & Liabilities</a>
+							  <ul class="collapse list-unstyled submenu" id="assetSubmenu">
+								<li><a href="#">- Assets</a></li>
+								<li><a href="#">- Liabilities</a></li>
+								
+							 </ul>
+							</li>
+                            <li><a href="#">My Goals</a></li>
+							 <li><a href="#">Risks</a></li>
+							 <li><a href="#RiskSubmenu" data-toggle="collapse" aria-expanded="false">Risks</a>
+							  <ul class="collapse list-unstyled submenu" id="RiskSubmenu">
+								<li><a href="#">- Life Insurance</a></li>
+								<li><a href="#">- Medical Insurance</a></li>
+								<li><a href="#">- Questionnaire</a></li>
+							 </ul>
+							</li>
+							  <li><a href="#">Tax</a></li>
+							   <li><a href="#">Checklist</a></li>
+                        </ul>
+                    </li>
+					 <li class="activenew menu">
+                        <a href="#adviceSubmenu" data-toggle="collapse" aria-expanded="false">
+                            <i class="fas fa-audio-description"></i>
+                            My Advice
+                        </a>
+                        <ul class="collapse list-unstyled menu" id="adviceSubmenu">
+                            
+							<li><a href="#financialSubmenu" data-toggle="collapse" aria-expanded="false">Current Financial State</a>
+							  <ul class="collapse list-unstyled submenu" id="financialSubmenu">
+								<li><a href="#">- Expense Advice</a></li>
+								<li><a href="#">- Networth Advice</a></li>
+								<li><a href="#">- Ratio Advice</a></li>
+							 
+							 </ul>
+							</li>
+                            <li><a href="#">Goals Advice</a></li>
+							
+							
+							<li><a href="#riskSubmenu" data-toggle="collapse" aria-expanded="false">Risk Advice</a>
+							 <ul class="collapse list-unstyled submenu" id="riskSubmenu">
+								<li><a  id="LifeInsuranceAdvice__" href="#">- Life nsurance Advice</a></li>
+								<li> <a  id="MedicalInsuranceAdvice__" href="#">- Medical Insurance Advice</a></li>
+								<li><a  id="FamilyHealthAdvice__" href="#">- Family Health Advice</a></li>
+								
+                              </ul>
+							</li>
+                            
+							<li><a href="#">Tax Advice</a></li>
+							<li><a href="#investmentSubmenu" data-toggle="collapse" aria-expanded="false">Investment Advice</a>
+							 <ul class="collapse list-unstyled submenu" id="investmentSubmenu">
+								<li><a id="CurrentAssetPlanning__" href="#">- Current Asset Planning</a></li>
+								<li><a  id="RecommendedAssetAllocation__" href="#">- Recommended Asset Allocation</a></li>
+								<li><a  id="RecommendedNPSAllocation__" href="#">- Recommended NPS Allocation</a></li>
+							
+                              </ul>
+							</li>
+                        </ul>
+                    </li>
+					  <li class="activenew menu">
+                        <a href="#executeSubmenu" data-toggle="collapse" aria-expanded="false">
+                           <i class="fas fa-tasks"></i>
+                            Execute Plan
+                        </a>
+                        <ul class="collapse list-unstyled " id="executeSubmenu">
+                            <li><a href="#">Investment</a></li>
+                            <li><a href="#">Insurance</a></li>
+                          
+                        </ul>
+                    </li>
+					 <li class="activenew menu">
+                        <a href="#portfolioSubmenu" data-toggle="collapse" aria-expanded="false">
+                            <i class="fas fa-adjust"></i>
+                            manage Portfolio
+                        </a>
+                        <ul class="collapse list-unstyled" id="portfolioSubmenu">
+                            <li><a href="#">Portfolio Tracker</a></li>
+                            <li><a href="#">Review Request</a></li>
+                          
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="list-unstyled CTAs">
+                    <li><a href="#" class="download"><span style="font-size:16px;">+91 9100123693</span> <br/>
+					10AM to 7PM (Week Days)<br/>
+					10AM to 2:30PM (Sat.)<br/>
+					<br/>
+					Write to us: 
+					<span style="font-size:16px;">care@arthayantra.com</span>
+					</a></li>
+					<li></li>
+                    <li><a href="#" class="article"><i class="fas fa-sign-out-alt"></i>&nbsp; Log Out</a></li>
+                </ul>
+            </nav>
+
+            <!-- Page Content Holder -->
+            <div id="content" class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+ <div class="navbar-header">
+                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                <i class="fas fa-bars"></i>
+                                <span></span>
+                            </button>
+                        </div>
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto" style="margin-left:10px;">
+	   
+      <li id="CurrentFinancialState"  class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Current Financial State
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">- Expense Advice</a>
+          <a class="dropdown-item" href="#">- Networth Advice</a>
+      
+          <a class="dropdown-item" href="#">- Ratio Advice</a>
+        </div>
+</li>
+<li id="GoalsAdvice" class="nav-item active">
+        <a class="nav-link" href="#">Goals Advice</a>
+		</li>
+ <li id="RiskAdvice"  class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         Risk Advice
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" id="LifeInsuranceAdvice__" href="#">Life nsurance Advice</a>
+          <a class="dropdown-item" id="MedicalInsuranceAdvice__" href="#">Medical Insurance Advice</a>
+            <a class="dropdown-item" id="FamilyHealthAdvice__" href="#">Family Health Advice</a>
+        </div>
+</li>
+<li id="TaxAdvice" class="nav-item active">
+        <a class="nav-link" href="#">Tax Advice<span class="sr-only">(current)</span></a>
+		
+      </li>
+	  <li  class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Investment Planning
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" id="CurrentAssetPlanning__" href="#">Current Asset Planning</a>
+          <a class="dropdown-item" id="RecommendedAssetAllocation__" href="#">Recommended Asset Allocation</a>
+            <a class="dropdown-item" id="RecommendedNPSAllocation__" href="#">Recommended NPS Allocation</a>
+        </div>
+</li>
+ 
+ </ul>
+<div style="float:right; margin-top:10px;">
+ <ul style="list-style:none; font-size:14px;">
+  <li  class="nav-item dropdown">
+        <div class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="far fa-user-circle"></i>&nbsp;Welcome! Rahul
+        </div>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" id="CurrentAssetPlanning__" href="#">Change Password</a>
+          
+        </div>
+</li>
+ 
+ </ul>
+ 
+ 
+ </div>
+  </div>
+</nav>
+   <div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+</div>       
+
+<div class="row newtopbar hidden-xs" id="clientdetailssection" >
+
+										<div class="col-md-3">
+											<p style="font-size:13px;  line-height:1px; margin-top:10px; margin-bottom: 10px;">
+												FIN HEALTH SCORE
+												<span style="font-size:16px; color:#000 !important; line-height:1px; font-weight:600; margin-top:18px;" id="mypfq">616/1000</span>
+
+											</p>
+										</div>
+
+										<div class="col-md-3">
+											<p style="font-size:13px;  line-height:1px; margin-top:10px; margin-bottom: 10px;">
+												SURPLUS
+												
+												
+												<span style="font-size:16px; color:#000  !important; line-height:1px; font-weight:600; margin-top:18px;" id="mysurplus">11,15,297</span>
+											</p>
+										</div>
+										<div class="col-md-3">
+											<p style="font-size:13px; line-height:1px; margin-top:10px; margin-bottom: 10px;">
+												 NETWORTH
+												
+												<span style="font-size:16px; color:#000  !important; line-height:1px; font-weight:600; margin-top:18px;" id="mynetworth">4,04,34,572</span>
+											</p>
+										</div>
+										<div class="col-md-3">
+											<p style="font-size:13px;  line-height:1px; margin-top:10px; margin-bottom: 10px;">
+												GOALS ACHIEVABLE
+												<span style="line-height:1px; margin-top:10px; font-weight:600;">
+							<span style="font-size:16px; color:#000 !important;" id="achievblegoals">2</span> <span style="font-size:16px; color:#000 !important; margin:10px;">/</span>
+												<span style="font-size:16px; color:#000 !important;" id="totalgoals">6</span>
+											</span></p>
+
+										</div>
+
+										<div class="clearfix"></div>
+
+									</div>		  
+
+               <!-- <h2>Collapsible Sidebar Using Bootstrap 3</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                <div class="line"></div>
+
+                <h2>Lorem Ipsum Dolor</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                <div class="line"></div>
+
+                <h2>Lorem Ipsum Dolor</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                <div class="line"></div>--
+
+               
+       
+
+
+
+
+
+        <!-- jQuery CDN -->
+		<div class="clearfix">&nbsp;</div>
+		<div class="container">
+		
+
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">My Details</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Personal details</li>
+  </ol>
+</nav>
+<div class="col-md-12">
+		<div class="row">
+		<div class="col-md-8">
+		<div class="row">
+		
+		
+		
+		<div class="card" style="width:100%">
+			<div class="card-body">
+				
+
+<form id="regForm" >
+   <!-- One "tab" for each step in the form: -->
+   
+   <div class="tab" >
+   <h5 class="card-title">PERSONAL DETAILS</h5>
+				<h6 class="card-subtitle mb-2 text-muted">Please share your personal details to start your plan.
+</h6>
+<hr/>
+   <label for="inputfirstname">Your Name</label>
+  <div class="form-row">
+     <div class="form-group col-md-4">
+  <input type="text" class="form-control" placeholder="first name">
+  </div>
+  <div class="form-group col-md-3">
+  <input type="text" class="form-control"  placeholder="middle name">
+  </div>
+  <div class="form-group col-md-4">
+  <input type="text" class="form-control"  placeholder="last name">
+  </div>
+  </div>
+  
+   
+  <div class="form-row">
+ 
+    	 <div class="form-group col-md-2">
+     <label for="inputfirstname">Date of Birth</label>
+      <select id="date" class="form-control" >
+        <option selected>Date</option>
+        <option>...</option>
+      </select>
+  
+	 
+	  </div>
+	<div class="form-group col-md-2">
+    <label for="inputfirstname">&nbsp;</label>
+      <select id="month" class="form-control" >
+        <option selected>Month</option>
+        <option>...</option>
+      </select>
+    </div>
+	<div class="form-group col-md-2">
+      <label for="inputfirstname">&nbsp;</label>
+      <select id="State" class="form-control">
+        <option selected>Year</option>
+        <option>...</option>
+      </select>
+    </div>
+	
+    </div>
+	  <div class="form-row">
+  <div class="form-group col-md-4">
+      <label for="inputgender" >Gender</label>
+      <select id="gender" class="form-control form-control-md" >
+        <option selected>Choose...</option>
+        <option>...</option>
+      </select>
+    </div></div>
+	<div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputocuupation">Occupation</label>
+      <input type="text" class="form-control" id="ocuupation">
+    </div></div>
+	<div class="form-row">
+	<div class="form-group col-md-4">
+      <label for="inputcompany">Company</label>
+      <input type="text" class="form-control" id="company" >
+    </div></div>
+   
+  </div>
+  </div>
+  <div class="tab">
+  <h5 class="card-title">COMMUNICATION DETAILS</h5>
+    <form>
+ 
+     <div class="form-row">
+   
+   <div class="form-group col-md-4">
+    <label for="inputemail">Email*</label>
+      <input type="email" class="form-control" id="email">
+    </div>
+	
+      </div>
+	  <div class="form-row">
+   
+   
+   
+   <div class="form-group col-md-4">
+    
+      <label for="inputphone">Phone Number*</label>
+    <div class="input-group input-group-sm mb-3">
+  <div class="input-group-prepend">
+   <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" style="width:50px;">
+  </div>
+  <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+</div>
+
+    </div>
+	
+   
+   <div class="form-group col-md-4">
+     <label for="inputcountry">Alternate phone Number</label>
+         <div class="input-group input-group-sm mb-3">
+  <div class="input-group-prepend">
+   <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" style="width:50px;">
+  </div>
+  <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+</div>
+    </div>
+	</div>
+    
+     
+   
+	
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+     <label for="inputcountry">Country</label>
+      <input type="text" class="form-control" id="country">
+    </div>
+	</div>
+	<div class="form-row">
+   <div class="form-group col-md-8">
+     <label for="inputAddress">Address</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="1">
+    </div>
+	</div>
+	
+  
+  
+  <div class="form-row">
+   
+   <div class="form-group col-md-4">
+      <label for="inputstate">State</label>
+      <input type="text" class="form-control" id="email">
+    </div>
+	</div>
+	<div class="form-row">
+	<div class="form-group col-md-4">
+      <label for="inputcity">City</label>
+      <input type="text" class="form-control" id="phone" >
+    </div>
+	</div>
+	<div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputpincode">PinCode</label>
+      <input type="text" class="form-control" id="pincode">
+    </div>
+	</div>
+  
+</form>
+  </div>
+  <div class="tab">
+   <h5 class="card-title">PAN DETAILS</h5>
+   <h6 class="card-subtitle mb-2 text-muted">As per SEBI (Securities & Exchange Board of India) PAN is mandatory for Financial Planning.
+</h6>
+    <div class="form-group">
+	
+    <label for="inputAddress">Your PAN</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="">
+  </div>
+  </div>
+  
+    <div class="tab">
+	
+   <h5 class="card-title">FAMILY DETAILS</h5>
+   <h6 class="card-subtitle mb-2 text-muted">some sub text
+</h6>
+
+<div style="float:right; position:absolute; right:60px;margin-top:-50px;"> <i class="fas fa-user-plus fa-lg" style="font-size:24px; color:#4CAF50;"></i></div>
+<table class="table">
+<tr>
+<th><div class="checkbox">
+<input type="checkbox" value="">
+</div></th>
+<th>Name</th><th>Relation</th>
+<th>Age</th>
+<th>Earning</th><th></th>
+</tr>
+<tr id="yui-rec0" class="yui-dt-first yui-dt-even"><td headers="yui-dt0-th-clientFamilyId " class="chk-box-width-fix yui-dt0-col-clientFamilyId yui-dt-col-clientFamilyId yui-dt-first"><div class="yui-dt-liner"><input type="checkbox" id="checkff808081555bc4d401556de63d5942c4"></div></td><td headers="yui-dt0-th-relation " class="yui-dt0-col-relation yui-dt-col-relation yui-dt-sortable yui-dt-resizeable"><div class="yui-dt-liner">Anju Chauhan</div></td>
+<td headers="yui-dt0-th-earning " class="yui-dt0-col-earning yui-dt-col-earning yui-dt-sortable yui-dt-resizeable"><div class="yui-dt-liner">Spouse</div></td><td headers="yui-dt0-th-firstName " class="yui-dt0-col-firstName yui-dt-col-firstName yui-dt-sortable yui-dt-resizeable"><div class="yui-dt-liner">28</div></td><td headers="yui-dt0-th-dob " class="yui-dt0-col-dob yui-dt-col-dob yui-dt-sortable yui-dt-resizeable"><div class="yui-dt-liner">No</div></td><td headers="yui-dt0-th- " class="width-fix-actions yui-dt0-col- yui-dt-col- yui-dt-sortable yui-dt-last"><div class="yui-dt-liner"><div style="span" onclick="">
+<i class="far fa-edit"></i>&nbsp;&nbsp;<i class="far fa-trash-alt"></i></div></td></tr>
+<tr id="yui-rec0" class="yui-dt-first yui-dt-even"><td headers="yui-dt0-th-clientFamilyId " class="chk-box-width-fix yui-dt0-col-clientFamilyId yui-dt-col-clientFamilyId yui-dt-first"><div class="yui-dt-liner"><input type="checkbox" id="checkff808081555bc4d401556de63d5942c4"></div></td><td headers="yui-dt0-th-relation " class="yui-dt0-col-relation yui-dt-col-relation yui-dt-sortable yui-dt-resizeable"><div class="yui-dt-liner">Anju Chauhan</div></td>
+<td headers="yui-dt0-th-earning " class="yui-dt0-col-earning yui-dt-col-earning yui-dt-sortable yui-dt-resizeable"><div class="yui-dt-liner">Spouse</div></td><td headers="yui-dt0-th-firstName " class="yui-dt0-col-firstName yui-dt-col-firstName yui-dt-sortable yui-dt-resizeable"><div class="yui-dt-liner">28</div></td><td headers="yui-dt0-th-dob " class="yui-dt0-col-dob yui-dt-col-dob yui-dt-sortable yui-dt-resizeable"><div class="yui-dt-liner">No</div></td><td headers="yui-dt0-th- " class="width-fix-actions yui-dt0-col- yui-dt-col- yui-dt-sortable yui-dt-last"><div class="yui-dt-liner"><div style="span" onclick="">
+<i class="far fa-edit"></i>&nbsp;&nbsp;<i class="far fa-trash-alt"></i></div></td></tr>
+<tr id="yui-rec0" class="yui-dt-first yui-dt-even"><td headers="yui-dt0-th-clientFamilyId " class="chk-box-width-fix yui-dt0-col-clientFamilyId yui-dt-col-clientFamilyId yui-dt-first"><div class="yui-dt-liner"><input type="checkbox" id="checkff808081555bc4d401556de63d5942c4"></div></td><td headers="yui-dt0-th-relation " class="yui-dt0-col-relation yui-dt-col-relation yui-dt-sortable yui-dt-resizeable"><div class="yui-dt-liner">Anju Chauhan</div></td>
+<td headers="yui-dt0-th-earning " class="yui-dt0-col-earning yui-dt-col-earning yui-dt-sortable yui-dt-resizeable"><div class="yui-dt-liner">Spouse</div></td><td headers="yui-dt0-th-firstName " class="yui-dt0-col-firstName yui-dt-col-firstName yui-dt-sortable yui-dt-resizeable"><div class="yui-dt-liner">28</div></td><td headers="yui-dt0-th-dob " class="yui-dt0-col-dob yui-dt-col-dob yui-dt-sortable yui-dt-resizeable"><div class="yui-dt-liner">No</div></td><td headers="yui-dt0-th- " class="width-fix-actions yui-dt0-col- yui-dt-col- yui-dt-sortable yui-dt-last"><div class="yui-dt-liner"><div style="span" onclick="">
+<i class="far fa-edit"></i>&nbsp;&nbsp;<i class="far fa-trash-alt"></i></div></td></tr>
+
+</table>
+<div style="display:none;">
+    <div class="form-row" >
+  <div class="form-group col-md-4">
+      <label for="inputrelationship" >Relationship</label>
+      <select id="gender" class="form-control form-control-md" >
+        <option selected>Mother</option>
+        <option>Father</option>
+      </select>
+    </div>
+	</div>
+	<div class="form-row">
+    <div class="form-group col-md-4">
+     <label for="inputfirst">firstname</label>
+      <input type="text" class="form-control" id="country">
+    </div>
+	<div class="form-group col-md-4">
+     <label for="inputfirst">middlename</label>
+      <input type="text" class="form-control" id="country">
+    </div>
+	<div class="form-group col-md-4">
+     <label for="">lastname</label>
+      <input type="text" class="form-control" id="country">
+    </div>
+	</div>
+	<div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="">Occupation</label>
+      <input type="text" class="form-control" id="ocuupation">
+    </div>
+	</div>
+	<div class="form-row">
+ 
+    	 <div class="form-group col-md-2">
+     <label for="inputfirstname">Date of Birth</label>
+      <select id="date" class="form-control" >
+        <option selected>Date</option>
+        <option>...</option>
+      </select>
+  
+	 
+	  </div>
+	<div class="form-group col-md-2">
+    <label for="inputfirstname">&nbsp;</label>
+      <select id="month" class="form-control" >
+        <option selected>Month</option>
+        <option>...</option>
+      </select>
+    </div>
+	<div class="form-group col-md-2">
+      <label for="inputfirstname">&nbsp;</label>
+      <select id="State" class="form-control">
+        <option selected>Year</option>
+        <option>...</option>
+      </select>
+    </div>
+  </div>
+  
+     <div class="form-row">
+   
+   <div class="form-group col-md-4">
+    <label for="inputemail">Email*</label>
+      <input type="email" class="form-control" id="email">
+    </div>
+	
+      </div>
+	  <div class="form-group col-md-4">
+    
+      <label for="inputphone">Phone Number*</label>
+    <div class="input-group input-group-sm mb-3">
+  <div class="input-group-prepend">
+   <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" style="width:50px;">
+  </div>
+  <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+</div>
+
+    </div>
+  </div>
+  </div>
+  
+  <div style="overflow:auto;">
+    <div style="float:right;">
+      <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+      <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+    </div>
+	
+  
+  <!-- Circles which indicates the steps of the form: -->
+  <div style="text-align:center;margin-top:20px;">
+    <span class="step"></span>
+    <span class="step"></span>
+    <span class="step"></span>
+  </div>
+</form>
+ <div class="clearfix">&nbsp;</div>
+			</div>
+			</div>
+
+		</div>	
+		</div>
+		
+<div class="col-md-3">
+<div class="clearfix">&nbsp;</div>
+<h4>Contact Information</h4>
+To sign up for a ARTHOS account you must have a Indian mailing address. We will never sell this information to anyone. Ever.
+<div style="    padding: 20px;
+    background-color: #3F51B5;
+    color: #fff; margin-top:30px;"> 
+Did you know?
+More than 25000 customers from 30 different countries trust us with their personal finance
+</div>
+
+</div>
+  </div>
+     </div>
+	  </div>
+</div>
+  </div>
+<div id="wrapper1">
+    <div id="onlinehulp">
+	<div style="width: 100px;
+    height: 100px;
+    background: #fff;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;margin-left: -52px;    position: absolute; margin-top:-90px">
+        <div id="clickme"><img src="images/kaustubh.png" style="width:70px;    margin-left: 13px;
+    margin-top: 15px;"/></div></div>
+        <div id="contact-online" class="show">
+		<p style="color:#2196F3;line-height:16px;">Hi Rahul! My name is Kaustubh. Your personal finance advisor. <br/><br/>Your Personal & family information is imprtant to identify the risk and impact on your goals.</p>
+		</div>
+    </div>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<script>
+var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the crurrent tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form...
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  //... and fix the Previous/Next buttons:
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("nextBtn").innerHTML = "Submit";
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
+  //... and run a function that will display the correct step indicator:
+  fixStepIndicator(n)
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+  if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form...
+  if (currentTab >= x.length) {
+    // ... the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("tab");
+  y = x[currentTab].getElementsByTagName("input");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+      // and set the current valid status to false
+      valid = false;
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+  }
+  return valid; // return the valid status
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class on the current step:
+  x[n].className += " active";
+}
+</script>
+
+
+
+
+
+</div>
+	
+		
+		</div>
+         
+         <!-- Bootstrap Js CDN 
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
+         <script type="text/javascript">
+             $(document).ready(function () {
+                 $('#sidebarCollapse').on('click', function () {
+                     $('#sidebar').toggleClass('active');
+                 });
+             });
+			 
+			 
+			 $( "#clickme" ).click(function() {
+    $( "#contact-online" ).slideToggle( "slow");
+    if($(this).hasClass('hide')){
+        $('#onlinehulp').animate({bottom: '0px'}, 'slow');
+        $(this).removeClass('hide').addClass('show');
+    } else {
+        $('#onlinehulp').animate({bottom: '0px'}, 'slow');
+        $(this).removeClass('show').addClass('hide');
+    }
+});
+         </script>
+		 <style>
+		 #wrapper1 {
+    
+   position:fixed;
+    margin: 0 auto;
+    padding: 0;
+    clear: both;
+    float: none;
+   right:0;
+	bottom:0;
+   
+}
+#clickme {
+    cursor: pointer;
+}
+
+#onlinehulp {
+    bottom: 0;
+    color: #fff;
+   
+    margin: 0 auto;
+  
+    right: 0;
+    width:125px;
+	bottom:0;
+}
+
+#contact-online {
+    background: #FFF none repeat scroll 0 0;
+    display: none;
+    margin-top: -20px;
+    box-shadow: 0px 0px 10px #EEEEEE;
+    height:250px;
+    border-radius: 0;
+	 width:250px;
+	 margin-left: -135px;
+	     border-radius: 10px 10px 0px 0px;
+		 padding:20px;
+		 
+	
+}
+
+		 </style>
+		 
+    </body>
+</html>

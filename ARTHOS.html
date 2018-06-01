@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>Collapsible sidebar using Bootstrap 3</title>
+
+         <!-- Bootstrap CSS CDN 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- Optional theme -->
+<script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+
+<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+        <!-- Our Custom CSS -->
+        <link rel="stylesheet" href="arthos.css">
+		<style>
+		body{
+		font-size:13px;
+		}
+		.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    /* background-color: #eeeeee; */
+    border: 0;
+    font-size: 13px;
+    /* border-bottom: 1px dotted #ddd; */
+}
+		.newtopbar {
+    background-color: rgb(255, 255, 255);
+    
+   
+   
+    text-align: center;
+    border-bottom: 1px solid rgb(243, 243, 243);
+    box-shadow: rgb(17, 17, 17) 0px 13px 10px -15px;
+    margin: 0px auto !important;
+	}
+	.leftmenuicons
+	{
+	font-size: 15px;
+    margin-right: 4px;
+    color: #E1BEE7;
+    font-weight: bold;
+
+	}
+	.card
+	{
+	border:1px solid #F5F5F5 !important;
+	}
+	.card-value
+	{
+	font-size:35px;
+	font-family: 'Lato', sans-serif;
+	font-weight:900;
+	}
+	.leftspace
+	{
+	margin-left:10px;
+	margin-bottom:10px;
+	}
+	.card-link
+	{
+	 color:#2196F3;
+	}
+	.score{
+	color:#2196F3;
+	}
+	.progress-bar {
+  width: 0;
+  animation: progress 1.5s ease-in-out forwards;
+  
+  .title {
+    opacity: 0;
+    animation: show 0.35s forwards ease-in-out 0.5s;
+  }
+} 
+.card-subtitle
+{
+font-size:13px;
+color:#BDBDBD !important;
+}
+	#overlay {
+    position: absolute;  /*Sit on top of the page content */
+    /*display: none;  Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.74); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+	border-radius:4px;
+}			
+		</style>
+		 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		 <script src="js/jquery.knob.js"></script>
+        <script>
+            $(function($) {
+
+                $(".knob").knob({
+                    change : function (value) {
+                        //console.log("change : " + value);
+                    },
+                    release : function (value) {
+                        //console.log(this.$.attr('value'));
+                        console.log("release : " + value);
+                    },
+                    cancel : function () {
+                        console.log("cancel : ", this);
+                    },
+                    /*format : function (value) {
+                        return value + '%';
+                    },*/
+                    draw : function () {
+
+                        // "tron" case
+                        if(this.$.data('skin') == 'tron') {
+
+                            this.cursorExt = 0.3;
+
+                            var a = this.arc(this.cv)  // Arc
+                                , pa                   // Previous arc
+                                , r = 1;
+
+                            this.g.lineWidth = this.lineWidth;
+
+                            if (this.o.displayPrevious) {
+                                pa = this.arc(this.v);
+                                this.g.beginPath();
+                                this.g.strokeStyle = this.pColor;
+                                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+                                this.g.stroke();
+                            }
+
+                            this.g.beginPath();
+                            this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+                            this.g.stroke();
+
+                            this.g.lineWidth = 2;
+                            this.g.beginPath();
+                            this.g.strokeStyle = this.o.fgColor;
+                            this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                            this.g.stroke();
+
+                            return false;
+                        }
+                    }
+                });
+
+                // Example of infinite knob, iPod click wheel
+                var v, up=0,down=0,i=0
+                    ,$idir = $("div.idir")
+                    ,$ival = $("div.ival")
+                    ,incr = function() { i++; $idir.show().html("+").fadeOut(); $ival.html(i); }
+                    ,decr = function() { i--; $idir.show().html("-").fadeOut(); $ival.html(i); };
+                $("input.infinite").knob(
+                                    {
+                                    min : 0
+                                    , max : 20
+                                    , stopper : false
+                                    , change : function () {
+                                                    if(v > this.cv){
+                                                        if(up){
+                                                            decr();
+                                                            up=0;
+                                                        }else{up=1;down=0;}
+                                                    } else {
+                                                        if(v < this.cv){
+                                                            if(down){
+                                                                incr();
+                                                                down=0;
+                                                            }else{down=1;up=0;}
+                                                        }
+                                                    }
+                                                    v = this.cv;
+                                                }
+                                    });
+            });
+        </script>
+    </head>
+    <body>
+
+
+
+        <div class="wrapper">
+            <!-- Sidebar Holder -->
+            <nav id="sidebar">
+                <div class="sidebar-header" style="text-align:center;">
+                    <h3 style="font-size:28px;">ARTHOS</h3>
+                    <strong>AY</strong>
+                </div>
+
+                <ul class="list-unstyled components">
+				 <li class="active">
+                        <a href="#">
+                            <i class="fas fa-tachometer-alt"></i>
+                            My Dashboard
+                        </a>
+                    </li>
+                    <li class="activenew menu">
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
+                            <i class="far fa-user"></i>
+                            My Details
+                        </a>
+                        <ul class="collapse list-unstyled " id="homeSubmenu">
+                            <li><a href="#"><i class="far fa-dot-circle leftmenuicons"></i>Family	</a></li>
+							 <li><a href="#"><i class="far fa-dot-circle leftmenuicons"></i>Spendings</a></li>
+                            <li><a href="#"><i class="far fa-dot-circle leftmenuicons"></i>Asset & Liabilities</a></li>
+                            <li><a href="#"><i class="far fa-dot-circle leftmenuicons"></i>My Goals</a></li>
+							 <li><a href="#"><i class="far fa-dot-circle leftmenuicons"></i>Risks</a></li>
+							  <li><a href="#"><i class="far fa-dot-circle leftmenuicons"></i>Tax</a></li>
+							   <li><a href="#"><i class="far fa-dot-circle leftmenuicons"></i>Checklist</a></li>
+                        </ul>
+                    </li>
+					 <li class="activenew menu">
+                        <a href="#adviceSubmenu" data-toggle="collapse" aria-expanded="false">
+                            <i class="fas fa-audio-description"></i>
+                            My Advice
+                        </a>
+                        <ul class="collapse list-unstyled menu" id="adviceSubmenu">
+                            <li><a href="#">Current Financial State</a></li>
+                            <li><a href="#">Goals Advice</a></li>
+                            <li><a href="#">Risk Advice</a></li>
+							<li><a href="#">Tax Advice</a></li>
+							<li><a href="#">Investment Advice</a></li>
+                        </ul>
+                    </li>
+					  <li class="activenew menu">
+                        <a href="#executeSubmenu" data-toggle="collapse" aria-expanded="false">
+                           <i class="fas fa-tasks"></i>
+                            Execute Plan
+                        </a>
+                        <ul class="collapse list-unstyled " id="executeSubmenu">
+                            <li><a href="#">Investment</a></li>
+                            <li><a href="#">Insurance</a></li>
+                          
+                        </ul>
+                    </li>
+					 <li class="activenew menu">
+                        <a href="#portfolioSubmenu" data-toggle="collapse" aria-expanded="false">
+                            <i class="fas fa-adjust"></i>
+                            manage Portfolio
+                        </a>
+                        <ul class="collapse list-unstyled" id="portfolioSubmenu">
+                            <li><a href="#">Portfolio Tracker</a></li>
+                            <li><a href="#">Review Request</a></li>
+                          
+                        </ul>
+                    </li>
+                   
+				  <!-- <li>
+                        <a href="#">
+                            <i class="glyphicon glyphicon-briefcase"></i>
+                            About
+                        </a>
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">
+                            <i class="glyphicon glyphicon-duplicate"></i>
+                            Pages
+                        </a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li><a href="#">Page 1</a></li>
+                            <li><a href="#">Page 2</a></li>
+                            <li><a href="#">Page 3</a></li>
+                        </ul>
+                    </li>
+                   
+                    <li>
+                        <a href="#">
+                            <i class="glyphicon glyphicon-paperclip"></i>
+                            FAQ
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="glyphicon glyphicon-send"></i>
+                            Contact
+                        </a>
+                    </li>-->
+                </ul>
+
+                <ul class="list-unstyled CTAs">
+                    <li><a href="#" class="download"><span style="font-size:16px;">+91 9100123693</span> <br/>
+					10AM to 7PM (Week Days)<br/>
+					10AM to 2:30PM (Sat.)<br/>
+					<br/>
+					Write to us: 
+					<span style="font-size:16px;">care@arthayantra.com</span>
+					</a></li>
+					<li></li>
+                    <li><a href="#" class="article"><i class="fas fa-sign-out-alt"></i>&nbsp; Log Out</a></li>
+                </ul>
+            </nav>
+
+            <!-- Page Content Holder -->
+            <div id="content" class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+ <div class="navbar-header">
+                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                <i class="fas fa-bars"></i>
+                                <span></span>
+                            </button>
+                        </div>
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto" style="margin-left:10px;">
+	   
+      <li id="CurrentFinancialState"  class="nav-item dropdown ">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Current Financial State
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Expense Advice</a>
+          <a class="dropdown-item" href="#">Networth Advice</a>
+      
+          <a class="dropdown-item" href="#">Ratio Advice</a>
+        </div>
+</li>
+<li id="GoalsAdvice" class="nav-item active">
+        <a class="nav-link" href="#">Goals Advice</a>
+		</li>
+ <li id="RiskAdvice"  class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         Risk Advice
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" id="LifeInsuranceAdvice__" href="#">Life nsurance Advice</a>
+          <a class="dropdown-item" id="MedicalInsuranceAdvice__" href="#">Medical Insurance Advice</a>
+            <a class="dropdown-item" id="FamilyHealthAdvice__" href="#">Family Health Advice</a>
+        </div>
+</li>
+<li id="TaxAdvice" class="nav-item active">
+        <a class="nav-link" href="#">Tax Advice<span class="sr-only">(current)</span></a>
+		
+      </li>
+	  <li  class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Investment Planning
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" id="CurrentAssetPlanning__" href="#">Current Asset Planning</a>
+          <a class="dropdown-item" id="RecommendedAssetAllocation__" href="#">Recommended Asset Allocation</a>
+            <a class="dropdown-item" id="RecommendedNPSAllocation__" href="#">Recommended NPS Allocation</a>
+        </div>
+</li>
+ 
+ </ul>
+<div style="float:right; margin-top:10px;">
+ <ul style="list-style:none; font-size:14px;">
+  <li  class="nav-item dropdown">
+        <div class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="far fa-user-circle"></i>&nbsp;Welcome! Rahul
+        </div>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" id="CurrentAssetPlanning__" href="#">Change Password</a>
+          
+        </div>
+</li>
+ 
+ </ul>
+ 
+ 
+ </div>
+     <!-- <li id="CurrentFinancialState" class="nav-item active">
+        <a class="nav-link" href="#">Current Financial State<span class="sr-only">(current)</span></a>
+		
+      </li>
+	  <li id="GoalsAdvice" class="nav-item active">
+        <a class="nav-link" href="#">Goals Advice</a>
+		
+		
+      </li>
+	  <li id="RiskAdvice" class="nav-item active">
+        <a class="nav-link" href="#">Risk Advice<span class="sr-only">(current)</span></a>
+		
+      </li>
+	  <li id="TaxAdvice" class="nav-item active">
+        <a class="nav-link" href="#">Tax Advice<span class="sr-only">(current)</span></a>
+		
+      </li>
+	  <li id="InvestmentPlanning" class="nav-item active">
+        <a class="nav-link" id="last" href="#">Investment Planning<span class="sr-only">(current)</span></a>
+		
+      </li>-->
+	  
+  
+      <!--    <div class="dropdown-divider"></div>
+	  
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>-->
+   
+    <!--<form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>-->
+  </div>
+</nav>
+   <div class="progress">
+  <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+</div>       
+
+<div class="row newtopbar hidden-xs" id="clientdetailssection" style="display:none;">
+
+										<div class="col-md-3">
+											<p style="font-size:13px;  line-height:1px; margin-top:10px; margin-bottom: 10px;">
+												FIN HEALTH SCORE
+												<span style="font-size:16px; color:#000 !important; line-height:1px; font-weight:600; margin-top:18px;" id="mypfq">616/1000</span>
+
+											</p>
+										</div>
+
+										<div class="col-md-3">
+											<p style="font-size:13px;  line-height:1px; margin-top:10px; margin-bottom: 10px;">
+												SURPLUS
+												
+												
+												<span style="font-size:16px; color:#000  !important; line-height:1px; font-weight:600; margin-top:18px;" id="mysurplus">11,15,297</span>
+											</p>
+										</div>
+										<div class="col-md-3">
+											<p style="font-size:13px; line-height:1px; margin-top:10px; margin-bottom: 10px;">
+												 NETWORTH
+												
+												<span style="font-size:16px; color:#000  !important; line-height:1px; font-weight:600; margin-top:18px;" id="mynetworth">4,04,34,572</span>
+											</p>
+										</div>
+										<div class="col-md-3">
+											<p style="font-size:13px;  line-height:1px; margin-top:10px; margin-bottom: 10px;">
+												GOALS ACHIEVABLE
+												<span style="line-height:1px; margin-top:10px; font-weight:600;">
+							<span style="font-size:16px; color:#000 !important;" id="achievblegoals">2</span> <span style="font-size:16px; color:#000 !important; margin:10px;">/</span>
+												<span style="font-size:16px; color:#000 !important;" id="totalgoals">6</span>
+											</span></p>
+
+										</div>
+
+										<div class="clearfix"></div>
+
+									</div>		  
+
+               <!-- <h2>Collapsible Sidebar Using Bootstrap 3</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                <div class="line"></div>
+
+                <h2>Lorem Ipsum Dolor</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                <div class="line"></div>
+
+                <h2>Lorem Ipsum Dolor</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                <div class="line"></div>--
+
+               
+       
+
+
+
+
+
+        <!-- jQuery CDN -->
+		<div class="clearfix">&nbsp;</div>
+		<div class="container">
+		
+		
+
+		<div class="col-md-12">
+		<div class="row">
+		
+		
+		
+		
+		<div class="col-md-4">
+		<div class="card" style=" height:430px;">
+			<div class="card-body">
+				<h5 class="card-title">ARTHAYANTRA FINANCIAL HEALTH SCORE</h5>
+				<h6 class="card-subtitle mb-2 text-muted">Arthayantra Financial Health Score tells you about the current status of your financial health
+</h6>
+				
+		
+				  
+           
+          <center>
+		  <div class="clearfix">&nbsp;</div>
+		  <!--<p class="card-value">616/1000</p>-->
+            <input class="knob" data-angleOffset=90 data-linecap=round value="616" readonly></p>
+       </center>
+	   <p>Your current personal financial standing is good. You can further improve it by taking some corrective measures.</p>
+			</div>
+			</div>
+			</div>
+		<div class="col-md-8">
+		<div class="row">
+		<div class="col-md-6">
+		<div class="card " style="height:210px;">
+			<div class="card-body">
+			<div style="position:absolute; margin-left:75%; bottom:50px;">
+           <i class="fas fa-bullseye" style="font-size:45px;color:#E1F5FE;"></i>
+            </div>
+				<h5 class="card-title">GOALS ACHIEVABLE</h5>
+				<h6 class="card-subtitle mb-2 text-muted">ARTHOS predicts the Goals acheivable and how to fine tune your fincnaial plan to acheive them.</h6>
+				<p class="card-value">2/6</p>
+				<a href="#" class="card-link">View Goals</a>
+				
+			</div>
+			</div>
+		</div>
+		<div class="col-md-6" >
+			<div class="card" style="background:#EEEEEE;height:210px;">
+			<div class="card-body">
+				<h5 class="card-title">Delaying right financial decisions increase risk and lower profit by 70% </h5>
+				<h6 class="card-subtitle mb-2 text-muted">&nbsp;</h6>
+				<p class="card-value"></p>
+				<a href="#" class="btn btn-success">Don't Wait Plan Now</a>
+				<a href="#" class="card-link"></a>
+			</div>
+			</div>
+	</div>
+		
+	
+	
+		<div class="col-md-6">
+			<div class="card" style="margin-top:10px;height:210px;">
+			<div class="card-body">
+			<div style="position:absolute; margin-left:75%; bottom:50px">
+           <i class="fas fa-piggy-bank" style="font-size:45px;color:#E1F5FE;"></i>
+            </div>
+				<h5 class="card-title">MY SURPLUS</h5>
+				<h6 class="card-subtitle mb-2 text-muted">The excess of amoutn you save from your income after expenses.</h6><br/>
+				<p class="card-value">23,10,220</p>
+				<a href="#" class="card-link">&nbsp;</a>
+				<a href="#" class="card-link">&nbsp;</a>
+			</div>
+			</div>
+		</div>
+			<div class="col-md-6" >
+			<div class="card" style="margin-top:10px;height:210px;">
+			<div class="card-body">
+			<div style="position:absolute; margin-left:75%; bottom:50px">
+           <i class="fas fa-percent" style="font-size:45px;color:#E1F5FE;"></i>
+            </div>
+				<h5 class="card-title">MY NETWOTRTH</h5>
+				<h6 class="card-subtitle mb-2 text-muted">Your networth is significantly useful for measuring your fincnaial progress.</h6><br/>
+				<p class="card-value">23,10,220</p>
+				<a href="#" class="card-link">&nbsp;</a>
+				<a href="#" class="card-link">&nbsp;</a>
+			</div>
+			</div>
+			</div>
+
+		</div>
+		</div>
+		</div>
+		</div>
+		
+
+<div class="col-md-12" >
+
+<div class="row">
+<div class="col-md-8">
+
+<div class="card" style="margin-top:10px;">
+  <div class="card-body">
+  <div id="overlay">
+  <div style="color:#fff; padding:30px; text-align:center; margin-top:100px;"> <h4>The smartest way to track your Financial Staus </h4><br/>
+  <p style="color:#fff;">Historical Growth tells how your Financial Health Score is improving, How Surplus & Networth is changing over the poeriod of time, What's the status of your Goals and about your Spending Habits. </p>
+   <br/>
+  <a href="#" class="btn btn-success">Start Now</a>
+  </div>
+ 
+  </div>
+  <h5>MY HISTORICAL GROWTH</h5>
+  <p>See how your financial condition performing over the time since you joined us!</p><br/>
+  
+   <canvas id="myChart"></canvas>
+  </div>
+</div>
+				
+			
+		</div>	
+		<div class="col-md-4">
+		<div class="row">
+		<div class="col-md-12" >
+			<div class="card" style="margin-top:10px;">
+			<div class="card-body">
+			
+				<h5 class="card-title">INSURANCE SUMMARY</h5>
+				<h6 class="card-subtitle mb-2 text-muted">Your networth is significantly useful for measuring your fincnaial progress.</h6><br/>
+			<table class="table">
+			<tr>
+			<th>TYPE</th>
+			<th>COVERAGE</th>
+			
+			</tr>
+				<tr>
+				<td>Health Insurance
+				
+				</td><td>12000
+				
+				
+				</td>
+				</tr>
+				<tr>
+				<td>Life Insurance
+				
+				</td><td>12000
+				
+				
+				</td>
+				</tr>
+				<tr>
+				<td>General Insurance
+				
+				</td><td>12000
+				
+				
+				</td>
+				</tr>
+				
+				</table>
+				
+
+		
+			</div>
+			</div>
+			
+			</div>
+			<div class="col-md-12">
+				<div class="card" style="margin-top:10px;    background: #5C6BC0;
+    color: #fff;">
+			<div class="card-body">
+			
+				<p class="card-title" style="color:#fff;">Anyone who is not investing now is missing a tremendous opportunity.</p>
+				<div style="float:right;">"CARLOS SLIM"</div>
+				
+				</div></div>
+			</div>
+		
+</div>
+		</div>
+		</div>
+</div>		
+			
+<div class="col-md-12">
+<div class="row">
+<div class="col-md-8" >
+			<div class="card" style="margin-top:10px;">
+			<div class="card-body">
+		
+				<h5 class="card-title">INVESTMENT SUMMARY</h5>
+				<h6 class="card-subtitle mb-2 text-muted">Your networth is significantly useful for measuring your fincnaial progress.</h6><br/>
+			
+				<table class="table">
+				<tr>
+				<td><p>AMOUNT INVESTED</p>
+				<h5>120000</h5>
+				</td><td><p>CURRENT VALUE</p>
+				<h5>520000</h5>
+				</td><td><p>XIRR (%)</p>
+				<h5>8%</h5>
+				</td>
+				</tr>
+				</table>
+			</div>
+			</div>
+			
+			</div>
+<div class="col-md-4" >
+			<div class="card" style="margin-top:10px;height:210px;">
+			<div class="card-body">
+			<div style="position:absolute; margin-left:75%; bottom:50px">
+           <i class="fas fa-shield-alt" style="font-size:45px;color:#E1F5FE;"></i>
+            </div>
+				<h5 class="card-title">MY WILL</h5>
+				<h6 class="card-subtitle mb-2 text-muted">The right step to ensure smooth passage of your assets to your loved ones.</h6><br/>
+				<p class="card-value">23,10,220</p>
+				<a href="#" class="card-link">&nbsp;</a>
+				<a href="#" class="card-link">&nbsp;</a>
+			</div>
+			</div>
+			</div>
+  </div>
+  </div>
+  </div>
+  <script>
+  var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ["Review 1", "Review 2", "Review 3", "April", "May", "June", "July"],
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45],
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
+  </script>
+  
+ 
+
+
+
+</div>
+		
+		
+		</div>
+         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+         <!-- Bootstrap Js CDN 
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
+         <script type="text/javascript">
+             $(document).ready(function () {
+                 $('#sidebarCollapse').on('click', function () {
+                     $('#sidebar').toggleClass('active');
+                 });
+             });
+         </script>
+		 
+		 <script src="/controllers/loadpages.js"></script>
+    </body>
+</html>
